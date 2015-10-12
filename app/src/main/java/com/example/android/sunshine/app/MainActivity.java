@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements ForecastFragment.
      * Substitute you own project number here. This project number comes
      * from the Google Developers Console.
      */
-    static final String PROJECT_NUMBER = "Your Project Number";
+    static String PROJECT_NUMBER = "Your Project Number";
 
     private boolean mTwoPane;
     private String mLocation;
@@ -63,6 +63,9 @@ public class MainActivity extends AppCompatActivity implements ForecastFragment.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        PROJECT_NUMBER = getString(R.string.project_number);
+
         mLocation = Utility.getPreferredLocation(this);
         Uri contentUri = getIntent() != null ? getIntent().getData() : null;
 
