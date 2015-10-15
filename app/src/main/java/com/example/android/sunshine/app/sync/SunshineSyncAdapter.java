@@ -350,6 +350,8 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
                 updateWidgets();
                 updateMuzei();
                 notifyWeather();
+
+                updateWearable(getContext(), cVVector.get(0));
             }
             Log.d(LOG_TAG, "Sync Complete. " + cVVector.size() + " Inserted");
             setLocationStatus(getContext(), LOCATION_STATUS_OK);
@@ -359,6 +361,13 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
             e.printStackTrace();
             setLocationStatus(getContext(), LOCATION_STATUS_SERVER_INVALID);
         }
+    }
+
+    private void updateWearable(Context context, ContentValues values) {
+        int weatherId = values.getAsInteger(WeatherContract.WeatherEntry.COLUMN_WEATHER_ID);
+        double tempLow = values.getAsDouble(WeatherContract.WeatherEntry.COLUMN_MIN_TEMP);
+        double tempHigh = values.getAsDouble(WeatherContract.WeatherEntry.COLUMN_MAX_TEMP);
+        WearableUpdateService.startActionSendWeatherUpdate(context, weatherId, tempLow, tempHigh);
     }
 
     private void updateWidgets() {
