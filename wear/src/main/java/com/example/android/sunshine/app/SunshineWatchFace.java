@@ -153,8 +153,8 @@ public class SunshineWatchFace extends CanvasWatchFaceService {
         private Bitmap mWeatherIcon;
         private Bitmap mWeatherIconAmbient;
         private static final char DEGREES = (char) 0x00B0;
-        private String mWeatherHigh = "55" + DEGREES;
-        private String mWeatherLow = "32" + DEGREES;
+        private String mWeatherHigh = "?" + DEGREES;
+        private String mWeatherLow = "?" + DEGREES;
         private int mWeatherId;
 
 
@@ -450,8 +450,8 @@ public class SunshineWatchFace extends CanvasWatchFaceService {
                             getResources(),
                             getIconResourceForWeatherCondition(mWeatherId));
                         mWeatherIconAmbient = toGrayscale(mWeatherIcon);
-                        mWeatherHigh = dataMap.getString(PARAM_TEMP_HIGH) + DEGREES;
-                        mWeatherLow = dataMap.getString(PARAM_TEMP_LOW) + DEGREES;
+                        mWeatherHigh = dataMap.getString(PARAM_TEMP_HIGH);
+                        mWeatherLow = dataMap.getString(PARAM_TEMP_LOW);
                     }
                 }
             }
