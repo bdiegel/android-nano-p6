@@ -42,12 +42,14 @@ import android.view.WindowInsets;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.wearable.DataApi;
 import com.google.android.gms.wearable.DataEvent;
 import com.google.android.gms.wearable.DataEventBuffer;
 import com.google.android.gms.wearable.DataItem;
 import com.google.android.gms.wearable.DataMap;
 import com.google.android.gms.wearable.DataMapItem;
+import com.google.android.gms.wearable.MessageApi;
 import com.google.android.gms.wearable.Wearable;
 
 import java.lang.ref.WeakReference;
@@ -239,6 +241,8 @@ public class SunshineWatchFace extends CanvasWatchFaceService implements GoogleA
             mWeatherIconAmbient = toGrayscale(mWeatherIcon);
 
             initFormats();
+
+            requestWeatherUpdate();
         }
 
         @Override
@@ -285,6 +289,17 @@ public class SunshineWatchFace extends CanvasWatchFaceService implements GoogleA
 
         private void initFormats() {
             mDateFormat = new SimpleDateFormat(mDateFormatString, Locale.getDefault());
+        }
+
+        // requests a weather data sync from the mobile app
+        private void requestWeatherUpdate() {
+            Wearable.MessageApi.sendMessage(mGoogleApiClient, "", "/sunshine/weather-request", null)
+                  .setResultCallback(new ResultCallback<MessageApi.SendMessageResult>() {
+                      @Override
+                      public void onResult(MessageApi.SendMessageResult sendMessageResult) {
+                          Log.i(LOG_TAG, "Sent request for weather info:" + sendMessageResult.getStatus());
+                      }
+                  });
         }
 
         private void registerReceiver() {
